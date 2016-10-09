@@ -11,14 +11,23 @@
 
 def index():
     """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
+    This is your main controller.
     """
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
+    # I am creating a bogus list here, just to have some divs appear in the
+    # view.  You need to read at most 20 posts from the database, in order of
+    # most recent first, and you need to return that list here.
+    # Note that posts is NOT a list of strings in your actual code; it is
+    # what you get from a db(...).select(...).
+    posts = ['banana', 'pear', 'eggplant']
+    return dict(posts=posts)
+
+
+@auth.requires_login()
+def edit():
+    """
+    This is the page to create / edit / delete a post.
+    """
+    return dict()
 
 
 def user():

@@ -1,1 +1,29 @@
 {{extend 'layout.html'}}
+
+<div class="post_listing">
+{{if auth.user_id:}}
+
+    <div class="post_list_header">
+        <a href="{{=URL('user', 'login')}}" class="btn btn-warning">Log In</a>
+    </div>
+
+{{else:}}
+
+    <div class="post_list_header">
+        <a href="{{=URL('default', 'edit')}}" class="btn btn-warning">
+            <i class="fa fa-plus"></i> Add Post
+        </a>
+    </div>
+
+{{pass}}
+
+    <div class="post_list">
+    {{for p in posts:}}
+        <div class="post">
+            <!-- Here goes the code to display an individual post. The code below is just a placeholder. -->
+            {{=p}}
+        </div>
+    {{pass}}
+    </div>
+
+</div>
