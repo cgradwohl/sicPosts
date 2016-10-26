@@ -20,15 +20,9 @@ def get_user_name_from_email(email):
 
 def index():
     """
-    This is your main controller.
+    This is your main controller.  Here you do almost nothing; you just cause index.html to be served.
     """
-    # I am creating a bogus list here, just to have some divs appear in the
-    # view.  You need to read at most 20 posts from the database, in order of
-    # most recent first, and you need to return that list here.
-    # Note that posts is NOT a list of strings in your actual code; it is
-    # what you get from a db(...).select(...).
-    posts = ['banana', 'pear', 'eggplant']
-    return dict(posts=posts)
+    return dict()
 
 
 @auth.requires_login()

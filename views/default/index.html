@@ -1,29 +1,22 @@
 {{extend 'layout.html'}}
 
-<div class="post_listing center">
-{{if auth.user_id:}}
+{{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    var get_posts_url = "{{=URL('api', 'get_posts', user_signature=True)}}";
+    var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
+    var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
+</script>
+{{end}}
 
-    <div class="post_list_header text-right">
-        <a href="{{=URL('default', 'edit')}}" class="btn btn-warning">
-            <i class="fa fa-plus"></i> New Post
-        </a>
-    </div>
+<div class="main_content">
 
-{{else:}}
-
-    <div class="post_list_header text-right">
-        <a href="{{=URL('default', 'user', args=['login'])}}" class="btn btn-warning">Log In</a>
-    </div>
-
-{{pass}}
-
-    <div class="post_list">
-    {{for p in posts:}}
-        <div class="post text-left">
-            <!-- Here goes the code to display an individual post. The code below is just a placeholder. -->
-            {{=p}}
-        </div>
-    {{pass}}
+    <div id="vue-div" class="display:none">
+        <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
     </div>
 
 </div>
+
+</div>
+
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
