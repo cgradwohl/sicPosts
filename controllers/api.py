@@ -13,7 +13,11 @@ def get_posts():
 def add_post():
     """Here you get a new post and add it.  Return what you want."""
     # Implement me!
-    return response.json(dict())
+    p_id = db.post.insert(
+        post_content = request.vars.post_content
+    )
+    p = db.track(p_id)
+    return response.json(dict(post=p))
 
 
 @auth.requires_signature()
@@ -21,4 +25,3 @@ def del_post():
     """Used to delete a post."""
     # Implement me!
     return response.json(dict())
-

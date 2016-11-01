@@ -13,6 +13,20 @@ var app = function() {
         }
     };
 
+    self.adding_post_button = function(){
+        self.vue.adding_post = !self.vue.adding_post;
+    };
+
+    self.add_post = function(){
+        self.vue.adding_post = !self.vue.adding_post;
+        $.post(add_post_url,
+            {
+                post_content: self.vue.form_post
+            },
+            function(data){
+                self.vue.posts.unshift(data.post);
+            });
+    };
 
     // Complete as needed.
     self.vue = new Vue({
@@ -20,10 +34,16 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-            has_more: false
+            has_more: false,
+            logged_in: false,
+            adding_post: false,
+            form_post: null,
+            posts: []
         },
         methods: {
-            get_more: self.get_more
+            //get_more: self.get_more,
+            adding_post_button: self.adding_post_button,
+            add_post: self.add_post
         }
 
     });

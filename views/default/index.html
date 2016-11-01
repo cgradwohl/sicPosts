@@ -1,5 +1,6 @@
 {{extend 'layout.html'}}
 
+
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
@@ -9,14 +10,80 @@
 </script>
 {{end}}
 
-<div class="main_content">
+<!--
+<body>
+-->
 
-    <div id="vue-div" class="display:none">
-        <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
+
+
+<div class="container">
+  <div class="row">
+    <div style="background: lightgrey; padding: 0 0 545px 0"class="col-sm-4">
+
     </div>
 
+    <!-- main content -->
+    <div class="col-sm-8">
+
+
+
+        <div id="vue-div" class="display:none">
+            <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
+
+            <!-- v-bind:class="{'disabled': !logged_in}" -->
+            <button v-if="!adding_post" class="btn btn-info btn-sm" v-on:click="adding_post_button()" >
+                Add New Post</button>
+
+
+
+            <div v-if="adding_post" id="add-new-post">
+                <form action="#" v-on:submit.prevent="add_post" class="form-horizontal" enctype="multipart/form-data" method="post">
+                    <textarea class="form-control" rows="3" placeholder="post something sooooo sic..."></textarea>
+                </form>
+
+                <button style="margin: 1%;"v-if="adding_post" type="submit" class="btn btn-info btn-sm">
+                    Post</button>
+                <button style="margin: 1%;" v-if="adding_post" class="btn btn-warning btn-sm" v-on:click="adding_post_button()">
+                    Cancel</button>
+            </div>
+        </div>
+
+
+        <div class="result_table">
+            <table>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Track</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="post in posts">
+                    <td></td>
+                    <td>${post.post_content}</td>
+                    <!--<td><i class="fa fa-trash-o" v-on:click="delete_track(track.id)"></i></td>-->
+                </tr>
+                </tbody>
+            </table>
+            <!--<div v-if="has_more" class="show_more">
+                <button class="btn btn-default" v-on:click="get_more()">Load more</button>
+            </div>-->
+        </div>
+
+    </div>
+  </div>
 </div>
 
-</div>
+
+
+
+
+
+
+
+
+
+
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

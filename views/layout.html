@@ -51,7 +51,7 @@
     <!--[if lt IE 8]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
     <div class="w2p_flash alert alert-dismissable">{{=response.flash or ''}}</div>
     <!-- Navbar ======================================= -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav style="background: deepskyblue;"class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -105,9 +105,9 @@
     </div>
 
     {{block footer}} <!-- this is default footer -->
-    <footer class="footer">
+    <footer style="background: deepskyblue; color: white;" class="footer">
       <div class="container-fluid">
-        <div class="copyright pull-left">{{=T('Copyright')}} &#169; {{=request.now.year}}</div>
+        <div class="copyright pull-left">{{=T('Chris Gradwohl')}} &#169; {{=request.now.year}}</div>
           <div id="poweredBy" class="pull-right">
             {{=T('Powered by')}}
             <a href="http://www.web2py.com/">web2py</a>
