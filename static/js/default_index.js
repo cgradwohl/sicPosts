@@ -13,6 +13,7 @@ var app = function() {
         }
     };
 
+    var enumerate = function(v) { var k=0; return v.map(function(e) {e._idx = k++;});};
 
     function get_posts_url(start_idx, end_idx) {
         var pp = {
@@ -27,8 +28,18 @@ var app = function() {
     self.get_posts = function() {
         $.getJSON(get_posts_url(0,4), function (data){
             self.vue.posts     = data.posts;
+            self.vue.has_more  = data.has_more;
             self.vue.logged_in = data.logged_in;
+            console.log(data);
         });
+    }
+
+    self.get_more = function() {
+        var num_posts = self.vue.posts.length;
+        $.getJSON(get_posts_url(num_posts, num_posts + 4), function (data){
+            self.vue.has_more  = data.has_more;
+            self.extend(self.vue.posts, data.posts);
+        })
     }
 
 
@@ -41,14 +52,18 @@ var app = function() {
 
     self.add_post = function() {
         self.vue.adding_post = !self.vue.adding_post;
+        console.log("before POST method");
         $.post(add_post_url,
             {
                 post_content: self.vue.form_post
             },
+
             function(data){
-                /*$.web2py.enableElement($("#add_post_submit"));*/
+                $.web2py.enableElement($("#add_post_submit"));
                 self.vue.posts.unshift(data.post);
+                //console.log(data.post);
             });
+
     };
 
 
@@ -66,16 +81,17 @@ var app = function() {
             posts: []
         },
         methods: {
-            //get_more: self.get_more,
+            get_more: self.get_more,
             adding_post_button: self.adding_post_button,
             add_post: self.add_post,
-            get_posts: self.get_posts
         }
 
     });
 
     self.get_posts();
     $("#vue-div").show();
+
+
     return self;
 };
 

@@ -4,7 +4,8 @@
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
-    var posts_url = "{{=URL('api', 'get_posts', user_signature=True)}}";
+
+    var posts_url = "{{=URL('api', 'get_posts')}}";
     var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
     var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
 </script>
@@ -17,52 +18,52 @@
 
 
 <div class="container">
-  <div class="row">
-    <div style="background: lightgrey; padding: 0 0 545px 0"class="col-sm-4">
+    <div id="vue-div" class="display:none">
 
-    </div>
+        <div class="row">
+            <div class="col-sm-4" style="background: lightgrey; border-radius: 10px; padding: 0 0 200px 0">
+                <div v-if="!adding_post" id="first-look">
+                    <button v-if="!adding_post" v-on:click="adding_post_button()" v-bind:class="{'disabled': !logged_in}" class="btn btn-info btn-sm" id="add-new-post-btn" style="position: absolute; bottom: 15px; right: 10px;">
+                        Add New Post</button>
+                </div>
 
-    <!-- main content -->
-    <div class="col-sm-8">
+                <div v-if="adding_post" id="add-new-post">
+                    <form action="#" v-on:submit.prevent="add_post" class="form-horizontal" enctype="multipart/form-data" method="post">
 
+                        <textarea  class="form-control string" v-model="form_post" rows="3"  placeholder="post something sooooo sic..."style="resize: none; width: 92.2%; margin: 15px 15px 15px 15px; position: absolute; top: 0px; left: 0px;"></textarea>
 
+                        <button type="submit" id="add_post_submit" class="btn btn-info btn-sm" style="position: absolute; bottom: 15px; right: 80px;" >
+                            Post</button>
 
-        <div id="vue-div" class="display:none">
-            <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
-
-            <!-- v-bind:class="{'disabled': !logged_in}" -->
-            <button v-if="!adding_post" class="btn btn-info btn-sm" v-on:click="adding_post_button()" >
-                Add New Post</button>
-
-
-
-            <div v-if="adding_post" id="add-new-post">
-                <form action="#" v-on:submit.prevent="add_post" class="form-horizontal" enctype="multipart/form-data" method="post">
-                    <textarea class="form-control string" rows="3" v-model="form_post" placeholder="post something sooooo sic..."></textarea>
-
-
-                    <button style="margin: 1%;" v-if="adding_post" type="submit" id="add_post_submit" class="btn btn-info btn-sm">
-                        Post</button>
-                    <button style="margin: 1%;" v-if="adding_post" class="btn btn-warning btn-sm" v-on:click="adding_post_button()">
+                    </form>
+                    <button v-on:click="adding_post_button()" id="add_post_cancel" class="btn btn-warning btn-sm" style="position: absolute; bottom: 15px; right: 10px;">
                         Cancel</button>
+                </div>
 
-                </form>
+                <div v-if="has_more" class="post-content">
+                    <button class="btn btn-success btn-sm" v-on:click="get_more()" style="position: fixed; top: 300px; left: 360px;">Load more</button>
+                </div>
+
+
             </div>
 
 
-            <div v-for="post in posts" class="post-content">
-                ${post.post_content}
-                
+            <!-- main content -->
+            <div class="col-sm-8">
 
+                <div v-for="post in posts" style="word-wrap: break-word; border-radius: 10px; background:lightgrey; margin: 2px 0 25px 0; padding: 5%;">
+                    ${post.post_content}
+                    <div>
+                        <i class="fa fa-pencil" style="margin: 0 15px 0 0" aria-hidden="true"></i>
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </div>
+                </div>
 
-                <!--<button class="btn btn-default" v-on:click="get_more()">Load more</button>-->
 
             </div>
-
         </div>
 
-    </div>
-  </div>
+    </div><!--vue-div-->
 </div>
 
 
