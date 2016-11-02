@@ -4,7 +4,7 @@
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
-    var get_posts_url = "{{=URL('api', 'get_posts', user_signature=True)}}";
+    var posts_url = "{{=URL('api', 'get_posts', user_signature=True)}}";
     var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
     var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
 </script>
@@ -38,37 +38,27 @@
 
             <div v-if="adding_post" id="add-new-post">
                 <form action="#" v-on:submit.prevent="add_post" class="form-horizontal" enctype="multipart/form-data" method="post">
-                    <textarea class="form-control" rows="3" placeholder="post something sooooo sic..."></textarea>
+                    <textarea class="form-control string" rows="3" v-model="form_post" placeholder="post something sooooo sic..."></textarea>
+
+
+                    <button style="margin: 1%;" v-if="adding_post" type="submit" id="add_post_submit" class="btn btn-info btn-sm">
+                        Post</button>
+                    <button style="margin: 1%;" v-if="adding_post" class="btn btn-warning btn-sm" v-on:click="adding_post_button()">
+                        Cancel</button>
+
                 </form>
-
-                <button style="margin: 1%;"v-if="adding_post" type="submit" class="btn btn-info btn-sm">
-                    Post</button>
-                <button style="margin: 1%;" v-if="adding_post" class="btn btn-warning btn-sm" v-on:click="adding_post_button()">
-                    Cancel</button>
             </div>
-        </div>
 
 
-        <div class="result_table">
-            <table>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Track</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="post in posts">
-                    <td></td>
-                    <td>${post.post_content}</td>
-                    <!--<td><i class="fa fa-trash-o" v-on:click="delete_track(track.id)"></i></td>-->
-                </tr>
-                </tbody>
-            </table>
-            <!--<div v-if="has_more" class="show_more">
-                <button class="btn btn-default" v-on:click="get_more()">Load more</button>
-            </div>-->
+            <div v-for="post in posts" class="post-content">
+                ${post.post_content}
+                
+
+
+                <!--<button class="btn btn-default" v-on:click="get_more()">Load more</button>-->
+
+            </div>
+
         </div>
 
     </div>

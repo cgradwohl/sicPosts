@@ -8,6 +8,31 @@ def get_posts():
     return response.json(dict())
 
 
+def get_posts():
+    start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
+    end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
+    # We just generate a lot of of data.
+    posts = []
+    has_more = False
+    rows = db().select(db.post.ALL, limitby=(start_idx, end_idx + 1))
+    for i, r in enumerate(rows):
+        if i < end_idx - start_idx:
+            p = dict(
+
+                post_content = r.post_content,
+
+            )
+            posts.append(p)
+        else:
+            has_more = True
+    logged_in = auth.user_id is not None
+    return response.json(dict(
+        posts=posts,
+        logged_in=logged_in,
+        has_more=has_more,
+    ))
+
+
 # Note that we need the URL to be signed, as this changes the db.
 @auth.requires_signature()
 def add_post():
@@ -16,7 +41,7 @@ def add_post():
     p_id = db.post.insert(
         post_content = request.vars.post_content
     )
-    p = db.track(p_id)
+    p = db.post(p_id)
     return response.json(dict(post=p))
 
 
