@@ -1,11 +1,14 @@
 # These are the controllers for your ajax api.
+def edit_post():
+    p = db(db.post.id == request.vars.post_id).select().first()
+    return response.json(dict(post=p))
 
-def get_posts():
-    """This controller is used to get the posts.  Follow what we did in lecture 10, to ensure
-    that the first time, we get 4 posts max, and each time the "load more" button is pressed,
-    we load at most 4 more posts."""
-    # Implement me!
-    return response.json(dict())
+
+def update_post():
+    p = db(db.post.id == request.vars.post_id).select().first()
+    p.post_content = request.vars.post_content
+    return response.json(dict(post=p))
+
 
 
 def get_posts():
@@ -43,8 +46,9 @@ def add_post():
     return response.json(dict(post=p))
 
 
+
 @auth.requires_signature()
 def del_post():
     """Used to delete a post."""
-    # Implement me!
-    return response.json(dict())
+    db(db.post.id == request.vars.post_id).delete()
+    return "ok"

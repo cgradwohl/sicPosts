@@ -8,6 +8,9 @@
     var posts_url = "{{=URL('api', 'get_posts')}}";
     var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
     var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
+    var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
+    var update_post_url = "{{=URL('api', 'update_post', user_signature=True)}}"
+
 </script>
 {{end}}
 
@@ -30,19 +33,33 @@
                 <div v-if="adding_post" id="add-new-post">
                     <form action="#" v-on:submit.prevent="add_post" class="form-horizontal" enctype="multipart/form-data" method="post">
 
-                        <textarea  class="form-control string" v-model="form_post" rows="3"  placeholder="post something sooooo sic..."style="resize: none; width: 92.2%; margin: 15px 15px 15px 15px; position: absolute; top: 0px; left: 0px;"></textarea>
+                        <textarea v-model="form_post" id="user_input" class="form-control string" rows="3"  placeholder="post something sooooo sic..."style="resize: none; width: 92.2%; margin: 15px 15px 15px 15px; position: absolute; top: 0px; left: 0px;"></textarea>
 
                         <button type="submit" id="add_post_submit" class="btn btn-info btn-sm" style="position: absolute; bottom: 15px; right: 80px;" >
                             Post</button>
+
 
                     </form>
                     <button v-on:click="adding_post_button()" id="add_post_cancel" class="btn btn-warning btn-sm" style="position: absolute; bottom: 15px; right: 10px;">
                         Cancel</button>
                 </div>
 
-                <div v-if="has_more" class="post-content">
-                    <button class="btn btn-success btn-sm" v-on:click="get_more()" style="position: fixed; top: 300px; left: 360px;">Load more</button>
+
+
+                <div v-if="editing_post" id="add-new-post">
+                    <form action="#" v-on:submit.prevent="update_post(edits._idx)" class="form-horizontal" enctype="multipart/form-data" method="post">
+
+                        <textarea v-bind="edits" id="user_input" class="form-control string" rows="3"  placeholder="post something sooooo sic..."style="resize: none; width: 92.2%; margin: 15px 15px 15px 15px; position: absolute; top: 0px; left: 0px;">${edits.post_content}</textarea>
+
+                        <button type="submit" id="add_post_submit" class="btn btn-success btn-sm" style="position: absolute; bottom: 15px; right: 80px;" >
+                            Post</button>
+
+
+                    </form>
+                    <button v-on:click="editing_post_button()" id="add_post_cancel" class="btn btn-warning btn-sm" style="position: absolute; bottom: 15px; right: 10px;">
+                        Cancel</button>
                 </div>
+
 
 
             </div>
@@ -54,12 +71,14 @@
                 <div v-for="post in posts" style="word-wrap: break-word; border-radius: 10px; background:lightgrey; margin: 2px 0 25px 0; padding: 5%;">
                     ${post.post_content}
                     <div>
-                        <i class="fa fa-pencil" style="margin: 0 15px 0 0" aria-hidden="true"></i>
-                        <i class="fa fa-trash" aria-hidden="true"></i>
+                        <i class="fa fa-pencil" v-on:click="edit_post(post._idx)" style="margin: 0 15px 0 0" aria-hidden="true"></i>
+                        <i class="fa fa-trash-o" v-on:click="del_post(post._idx)" aria-hidden="true"></i>
                     </div>
                 </div>
-
-
+                <div v-if="has_more" class="post-content">
+                    <button class="btn btn-success btn-sm" v-on:click="get_more()" style="margin: 0 0 10px 0">
+                        Load more</button>
+                </div>
             </div>
         </div>
 
